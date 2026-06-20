@@ -10,6 +10,13 @@ import asyncio
 import webbrowser
 
 import psutil
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+print("API Loaded:", GROQ_API_KEY is not None)
 
 try:
     import speech_recognition as sr
@@ -44,8 +51,13 @@ except ImportError:
 IS_WINDOWS = platform.system() == "Windows"
 
 
-GROQ_API_KEY = os.getenv("API_KEY")
-client = Groq(api_key=GROQ_API_KEY) if (Groq and GROQ_API_KEY) else None
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+client = (
+    Groq(api_key=GROQ_API_KEY)
+    if Groq and GROQ_API_KEY
+    else None
+)
 
 text_queue = queue.Queue()
 tts_queue = queue.Queue()
